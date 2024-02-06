@@ -7,5 +7,5 @@ class User < ApplicationRecord
     validates :password, presence: true, length: { minimum: 12, maximum: 50 }
 
     # associations
-    
+    has_many :carousels
 end
