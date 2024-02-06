@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_06_005911) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_06_010318) do
   create_table "carousels", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -24,6 +24,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_06_005911) do
   create_table "carousels_tags", id: false, force: :cascade do |t|
     t.integer "carousel_id", null: false
     t.integer "tag_id", null: false
+  end
+
+  create_table "quill_contents", force: :cascade do |t|
+    t.float "width"
+    t.float "height"
+    t.float "x"
+    t.float "y"
+    t.string "delta"
+    t.integer "slide_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slide_id"], name: "index_quill_contents_on_slide_id"
   end
 
   create_table "slides", force: :cascade do |t|
@@ -48,5 +60,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_06_005911) do
   end
 
   add_foreign_key "carousels", "users"
+  add_foreign_key "quill_contents", "slides"
   add_foreign_key "slides", "carousels"
 end
