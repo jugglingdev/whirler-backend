@@ -36,13 +36,6 @@ class CarouselsController < ApplicationController
       end
     end
   
-    def posts_index
-      carousel = Carousel.find(params[:carousel_id])
-  
-      carousel_posts = carousel.posts
-      render json: carousel_posts, status: :ok
-    end
-  
     private
   
     def set_carousel
@@ -50,6 +43,6 @@ class CarouselsController < ApplicationController
     end
   
     def carousel_params
-      params.permit(:title, :description)
+      params.permit(:title, :description, :user_id)
     end
 end

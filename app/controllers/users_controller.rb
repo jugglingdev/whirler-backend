@@ -37,11 +37,11 @@ class UsersController < ApplicationController
     end
   end
 
-  def posts_index
+  def carousels_index
     user = User.find(params[:user_id])
 
-    user_posts = user.posts
-    render json: user_posts, status: :ok
+    user_carousels = user.carousels
+    render json: user_carousels, status: :ok
   end
 
   private
