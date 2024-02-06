@@ -36,11 +36,11 @@ class SlidesController < ApplicationController
         end
     end
 
-    def carousels_index
+    def quill_contents_index
         slide = Slide.find(params[:slide_id])
-
-        slide_carousels = slide.carousels
-            render json: slide_carousels, status: :ok
+    
+        slide_quill_contents = slide.quill_contents
+        render json: slide_quill_contents, status: :ok
     end
 
     private

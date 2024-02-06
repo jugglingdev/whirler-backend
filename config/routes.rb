@@ -11,4 +11,8 @@ Rails.application.routes.draw do
   resources :carousels do
     get 'slides', to: 'carousels#slides_index'
   end
+
+  resources :slides do
+    get 'quill_contents', to: 'slides#quill_contents_index'
+  end
 end
