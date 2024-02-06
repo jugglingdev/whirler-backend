@@ -32,8 +32,15 @@ class CarouselsController < ApplicationController
       if @carousel.destroy
         render json: nil, status: :ok
       else
-        redner json: @carousel.errors, status: :unprocessable_entity
+        render json: @carousel.errors, status: :unprocessable_entity
       end
+    end
+
+    def slides_index
+      carousel = Carousel.find(params[:carousel_id])
+  
+      carousel_slides = carousel.slides
+      render json: carousel_slides, status: :ok
     end
   
     private

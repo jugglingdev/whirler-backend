@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     if @user.destroy
       render json: nil, status: :ok
     else
-      redner json: @user.errors, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
