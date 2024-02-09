@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_06_012514) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_09_010047) do
   create_table "carousels", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -31,7 +31,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_06_012514) do
     t.float "height"
     t.float "x"
     t.float "y"
-    t.string "delta"
+    t.text "delta"
     t.integer "slide_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
