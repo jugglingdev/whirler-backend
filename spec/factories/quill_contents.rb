@@ -4,8 +4,7 @@ FactoryBot.define do
     height { Faker::Number.between(from: 0.0, to: 100.0) }
     x { Faker::Number.between(from: 0.0, to: 500.0) }
     y { Faker::Number.between(from: 0.0, to: 500.0) }
-    delta { Faker::Json.add_depth_to_json(
-      json: json, 
+    delta { Faker::Json.shallow_json(
       width: 2, 
       options: { 
         key: 'Lorem.word', 
