@@ -22,6 +22,16 @@ RSpec.describe User, type: :model do
       expect(user).not_to be_valid
     end
 
+    it 'has a password that is at most 50 characters' do
+      user = build(:user, password: Faker::Internet.password(min_length: 51, max_length: 60))
+      expect(user).not_to be_valid
+    end
+
+    it 'has a password that is at least 12 characters' do
+      user = build(:user, password: Faker::Internet.password(max_length: 11))
+      expect(user).not_to be_valid
+    end
+
   end
 
   context 'uniqeness tests' do
@@ -31,6 +41,16 @@ RSpec.describe User, type: :model do
 
       expect(user2).not_to be_valid
       expect(user2.errors[:email]).to include("has already been taken")
+    end
+  end
+
+  context 'association test' do
+    it 'has many carousels' do
+      user = create(:user)
+      create_list(:carousel, 3, user: user)
+
+      user.reload
+      expect(user.carousels.count).to eq(3)
     end
   end
 
