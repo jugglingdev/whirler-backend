@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     # validations
-    validates :email, presence: true, uniqueness: true, length: { maximum: 255 },
+    validates :email, presence: true, uniqueness: true,
         format: {
             with: URI::MailTo::EMAIL_REGEXP
         }
