@@ -4,6 +4,6 @@ FactoryBot.define do
     description { Faker::Lorem.sentence }
     thumbnail { Faker::Placeholdit.image }
     user
-    tags { [association(:tag)] }
+    # tags { [association(:tag)] }
   end
 end
