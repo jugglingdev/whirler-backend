@@ -31,7 +31,6 @@ RSpec.describe User, type: :model do
       user = build(:user, password: Faker::Internet.password(max_length: 11))
       expect(user).not_to be_valid
     end
-
   end
 
   context 'uniqeness tests' do
@@ -67,5 +66,4 @@ RSpec.describe User, type: :model do
       expect(carousels).to be_empty
     end
   end
-
 end

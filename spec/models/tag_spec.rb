@@ -15,17 +15,17 @@ RSpec.describe Tag, type: :model do
 
     context 'association tests' do
         it 'belongs to a carousel' do
-            tag = build(:tag)
-            expect(tag.carousel).to be_present
+            carousel = create(:carousel)
+            tag = create(:tag, carousels: [carousel])
+            expect(tag.carousels).to be_present
         end
 
         it 'has many carousels' do
             tag = create(:tag)
-            create_list(:carousel, 3, tag: tag)
+            create_list(:carousel, 3, tags: [tag])
     
             tag.reload
             expect(tag.carousels.count).to eq(3)
         end
     end
-
 end

@@ -1,9 +1,8 @@
 FactoryBot.define do
   factory :carousel do
-    title { Faker::Lorem.words(number: 3) }
+    title { Faker::Lorem.sentence }
     description { Faker::Lorem.sentence }
     thumbnail { Faker::Placeholdit.image }
     user
-    # tags { [association(:tag)] }
   end
 end
