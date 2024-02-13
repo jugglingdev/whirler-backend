@@ -50,6 +50,6 @@ class CarouselsController < ApplicationController
     end
   
     def carousel_params
-      params.permit(:title, :description, :user_id)
+      params.permit(:title, :description, :user_id, :tags)
     end
 end
