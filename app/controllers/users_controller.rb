@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
-      render json: user, status: :created
+      render json: UserBlueprint.render(user, view: :normal), status: :created
     else
       render json: user.errors, status: :unprocessable_entity
     end

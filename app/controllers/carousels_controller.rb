@@ -4,18 +4,18 @@ class CarouselsController < ApplicationController
 
     def index
       carousels = Carousel.all
-      render json: carousels, status: 200
+      render json: CarouselBlueprint.render(carousels, view: :normal), status: :ok
     end
   
     def show
-      render json: @carousel, status: 200
+      render json: @carousel, status: :ok
     end
   
     def create
       carousel = Carousel.new(carousel_params)
   
       if carousel.save
-        render json: carousel, status: :created
+        render json: CarouselBlueprint.render(carousel, view: :normal), status: :created
       else
         render json: carousel.errors, status: :unprocessable_entity
       end
