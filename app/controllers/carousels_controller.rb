@@ -1,4 +1,5 @@
 class CarouselsController < ApplicationController
+    before_action :authenticate_request
     before_action :set_carousel, only: [:show, :update, :destroy]
 
     def index

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'sessions/create'
+  post '/login', to: 'sessions#create'
 
   resources :users do
     get 'carousels', to: 'users#carousels_index'
