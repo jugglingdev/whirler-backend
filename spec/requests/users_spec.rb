@@ -67,7 +67,7 @@ RSpec.describe "Users", type: :request do
       let(:user) {create(:user)}
 
       before do
-        user_attributes = { email: "johndoe123@test.com" }
+        user_attributes = attributes_for(:user, email: "johndoe123@test.com")
         put "/users/#{user.id}", params: user_attributes
       end
 
@@ -85,7 +85,7 @@ RSpec.describe "Users", type: :request do
       let(:user) {create(:user)}
       
       before do
-        user_attributes = { email: nil }
+        user_attributes = attributes_for(:user, email: nil)
         put "/users/#{user.id}", params: user_attributes
       end
 
