@@ -38,7 +38,6 @@ class SlidesController < ApplicationController
     # GET /slides/:slide_id/quill_contents (Carousel Edit view)
     def quill_contents_index
         slide = Slide.find(params[:slide_id])
-    
         slide_quill_contents = slide.quill_contents
         render json: slide_quill_contents, status: :ok
     end

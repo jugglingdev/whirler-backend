@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
-      render json: UserBlueprint.render(user, view: :signup), status: :created
+      render json: user, status: :created
     else
       render json: user.errors, status: :unprocessable_entity
     end
@@ -36,19 +36,9 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH /users/:user_id/change_password (Change Password view)
-  def change_password
-    if @user.update(user_params)
-      render json: UserBlueprint.render(@user, view: :change_password), status: :ok
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
-  end
-
   # GET /users/:user_id/carousels (Dashboard view)
   def carousels_index
     user = User.find(params[:user_id])
-
     user_carousels = user.carousels
     render json: CarouselBlueprint.render(user_carousels, view: :dashboard), status: :ok
   end

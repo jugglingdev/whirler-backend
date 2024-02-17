@@ -1,28 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe "Carousels", type: :request do
-  describe "GET /carousels" do
-    let(:carousel) {create(:carousel)}
-
-    before do
-      carousel
-      get "/carousels"
-    end
-    
-    it 'returns a sucessful response' do
-      expect(response).to be_successful
-    end
-
-    it 'returns a response with all the carousels' do
-      expect(response.body).to eq(CarouselBlueprint.render(Carousel.all))
-    end
-  end
 
   describe "GET /carousel/:id" do
+    let(:user) {create(:user)}
     let(:carousel) {create(:carousel)}
+    let(:token) { auth_token_for_user(user) }
 
     before do
-      get "/carousels/#{carousel.id}"
+      get "/carousels/#{carousel.id}", headers: { Authorization: "Bearer #{token}" }
     end
 
     it 'returns a sucessful response' do
@@ -30,7 +16,7 @@ RSpec.describe "Carousels", type: :request do
     end
 
     it 'returns a response with the correct carousel' do
-      expect(response.body).to eq(carousel.to_json)
+      expect(response.body).to eq(CarouselBlueprint.render(carousel, view: :carousel_edit))
     end
   end
 
@@ -66,12 +52,14 @@ RSpec.describe "Carousels", type: :request do
   end
 
   describe "PUT /carousels/:id" do
-    context 'with valid params' do
-      let(:carousel) {create(:carousel)}
+    let(:user) {create(:user)}
+    let(:carousel) {create(:carousel)}
+    let(:token) { auth_token_for_user(user) }
 
+    context 'with valid params' do
       before do
         carousel_attributes = attributes_for(:carousel, title: "Updated Title")
-        put "/carousels/#{carousel.id}", params: carousel_attributes
+        put "/carousels/#{carousel.id}", params: carousel_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it 'updates a carousel' do
@@ -85,11 +73,9 @@ RSpec.describe "Carousels", type: :request do
     end
 
     context 'with invalid params' do
-      let(:carousel) {create(:carousel)}
-      
       before do
         carousel_attributes = attributes_for(:carousel, title: nil)
-        put "/carousels/#{carousel.id}", params: carousel_attributes
+        put "/carousels/#{carousel.id}", params: carousel_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it 'returns a response with errors' do
@@ -99,10 +85,12 @@ RSpec.describe "Carousels", type: :request do
   end
 
   describe 'DELETE /carousel/:id' do
+    let(:user) {create(:user)}
     let(:carousel) {create(:carousel)}
+    let(:token) { auth_token_for_user(user) }
 
     before do
-      delete "/carousels/#{carousel.id}"
+      delete "/carousels/#{carousel.id}", headers: { Authorization: "Bearer #{token}" }
     end
 
     it 'deletes a carousel' do
@@ -111,6 +99,27 @@ RSpec.describe "Carousels", type: :request do
 
     it 'returns a successful response' do
       expect(response).to be_successful
+    end
+  end
+
+  describe "GET /carousels/:id/slides" do
+    let(:user) {create(:user)}
+    let(:carousel) {create(:carousel)}
+    let(:slides) {create_list(:slide, 3, carousel: carousel)}
+    let(:token) { auth_token_for_user(user) }
+
+    before do
+      slides
+      get "/carousels/#{carousel.id}/slides", headers: { Authorization: "Bearer #{token}" }
+    end
+    
+    it 'returns a sucessful response' do
+      expect(response).to be_successful
+    end
+
+    it 'returns a response with all the carousel slides' do
+      slide_titles = slides.map(&:title)
+      expect(JSON.parse(response.body).map { |slide| slide["title"] }).to match_array(slide_titles)
     end
   end
 end

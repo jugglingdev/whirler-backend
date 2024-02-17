@@ -9,7 +9,6 @@ Rails.application.routes.draw do
 
   resources :users, only: [:create, :update, :destroy] do
     get 'profile', to: 'users#show'
-    patch 'change_password', to: 'users#change_password'
     resources :carousels, only: [:index] # For Dashboard view
   end
 

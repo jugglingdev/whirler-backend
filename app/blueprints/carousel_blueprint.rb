@@ -4,10 +4,11 @@ class CarouselBlueprint < Blueprinter::Base
     identifier :id
 
     view :dashboard do
-        fields :title, :description, :thumbnail
+        fields :title, :description, :thumbnail, :tags
     end
 
     view :carousel_edit do
-        association :slides, blueprint: SlideBlueprint, view: :carousel_edit
+        fields :title
+        association :slides, blueprint: SlideBlueprint
     end
 end

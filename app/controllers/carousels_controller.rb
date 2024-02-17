@@ -1,12 +1,6 @@
 class CarouselsController < ApplicationController
-    before_action :authenticate_request, only: [:create]
+    before_action :authenticate_request
     before_action :set_carousel, only: [:show, :update, :destroy]
-
-    # GET /carousels (Dashboard view)
-    def index
-      carousels = Carousel.all
-      render json: CarouselBlueprint.render(carousels, view: :dashboard), status: :ok
-    end
   
     # GET /carousels/:id (Carousel Edit view)
     def show
@@ -24,7 +18,7 @@ class CarouselsController < ApplicationController
       end
     end
   
-    # PATCH /carousels/:id (Carousel Edit view - Update)
+    # PUT /carousels/:id (Carousel Edit view - Update)
     def update
       if @carousel.update(carousel_params)
         render json: CarouselBlueprint.render(@carousel, view: :carousel_edit), status: :ok
@@ -45,9 +39,8 @@ class CarouselsController < ApplicationController
     # GET /carousels/:carousel_id/slides (Carousel Edit view)
     def slides_index
       carousel = Carousel.find(params[:carousel_id])
-  
       carousel_slides = carousel.slides
-      render json: carousel_slides, status: :ok
+      render json: CarouselBlueprint.render(carousel_slides, view: :carousel_edit), status: :ok
     end
   
     private
@@ -57,6 +50,6 @@ class CarouselsController < ApplicationController
     end
   
     def carousel_params
-      params.permit(:title, :description, :thumbnail, :user_id, :tags)
+      params.permit(:title, :description, :thumbnail, :user_id, tags: [ :name ] )
     end
 end

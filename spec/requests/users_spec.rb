@@ -95,7 +95,6 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "GET /users/:id/carousels" do
-    
     let(:user) {create(:user)}
     let(:carousels) {create_list(:carousel, 3, user: user)}
 

@@ -5,6 +5,6 @@ class SlideBlueprint < Blueprinter::Base
   
     view :carousel_edit do
       fields :title
-      assocation :quill_contents, blueprint: QuillContentBlueprint
+      association :quill_contents, blueprint: QuillContentBlueprint
     end
 end
