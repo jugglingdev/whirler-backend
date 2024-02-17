@@ -1,15 +1,12 @@
 class SlidesController < ApplicationController
     before_action :set_slide, only: [:show, :update, :destroy]
 
-    def index
-        slides = Slide.all
-        render json: slides, status: 200
-    end
-
+    # GET /slides/:id (Carousel Edit view)
     def show
-        render json: @slide, status: 200
+        render json: @slide, status: :ok
     end
 
+    # POST /slides (Carousel Edit view - Create)
     def create
         slide = Slide.new(slide_params)
 
@@ -20,6 +17,7 @@ class SlidesController < ApplicationController
         end
     end
 
+    # PATCH /slides/:id (Carousel Edit view - Update)
     def update
         if @slide.update(slide_params)
             render json: @slide, status: :ok
@@ -28,6 +26,7 @@ class SlidesController < ApplicationController
         end
     end
 
+    # DELETE /slides/:id (Carousel Edit view - Delete)
     def destroy
         if @slide.destroy
             render json: nil, status: :ok
@@ -36,6 +35,7 @@ class SlidesController < ApplicationController
         end
     end
 
+    # GET /slides/:slide_id/quill_contents (Carousel Edit view)
     def quill_contents_index
         slide = Slide.find(params[:slide_id])
     

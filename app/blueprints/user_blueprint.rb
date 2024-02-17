@@ -3,11 +3,23 @@
 class UserBlueprint < Blueprinter::Base
     identifier :id
 
-    view :normal do
-        fields :username, :email
+    view :signup do
+        fields :username, :email, :password, :password_confirmation
+    end
+    
+    view :login do
+        fields :username, :password
     end
 
-    view :carousels do
-        association :carousels, blueprint: CarouselBlueprint
+    view :profile_edit do
+        fields :first_name, :last_name, :username, :email
+    end
+
+    view :change_password do
+        fields :password, :password_confirmation
+    end
+
+    view :dashboard do
+        association :carousels, blueprint: CarouselBlueprint, view: :dashboard
     end
 end

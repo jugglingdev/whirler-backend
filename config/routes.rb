@@ -5,18 +5,20 @@ Rails.application.routes.draw do
     post 'login', to: 'sessions#create'
   end
 
-  resources :users do
-    get 'carousels', to: 'users#carousels_index'
+  post '/signup', to: 'users#create'
+
+  resources :users, only: [:create, :update, :destroy] do
+    get 'profile', to: 'users#show'
+    patch 'change_password', to: 'users#change_password'
+    resources :carousels, only: [:index] # For Dashboard view
   end
 
-  resources :carousels do
-    get 'slides', to: 'carousels#slides_index'
+  resources :carousels, only: [:show, :create, :update, :destroy] do
+    resources :slides, only: [:index, :create] # For Carousel Edit view
   end
 
-  resources :slides do
-    get 'quill_contents', to: 'slides#quill_contents_index'
+  resources :slides, only: [:show, :update, :destroy] do
+    resources :quill_contents, only: [:index, :create] # For Carousel Edit view
   end
-
-  resources :quill_contents
 
 end

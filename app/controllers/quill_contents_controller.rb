@@ -2,15 +2,12 @@ class QuillContentsController < ApplicationController
         
   before_action :set_quill_contents, only: [:show, :update, :destroy]
 
-  def index
-    quill_contents = QuillContent.all
-    render json: quill_contents, status: 200
-  end
-
+  # GET /quill_contents/:id (Carousel Edit view)
   def show
-    render json: @quill_contents, status: 200
+    render json: @quill_contents, status: :ok
   end
 
+  # POST /quill_contents (Carousel Edit view - Create)
   def create
     quill_contents = QuillContent.new(quill_contents_params)
 
@@ -21,6 +18,7 @@ class QuillContentsController < ApplicationController
     end
   end
 
+  # PATCH /quill_contents/:id (Carousel Edit view - Update)
   def update
     if @quill_contents.update(quill_contents_params)
       render json: @quill_contents, status: :ok
@@ -29,6 +27,7 @@ class QuillContentsController < ApplicationController
     end
   end
 
+  # DELETE /quill_contents/:id (Carousel Edit view - Delete)
   def destroy
     if @quill_contents.destroy
       render json: nil, status: :ok
