@@ -6,6 +6,11 @@ RSpec.describe Carousel, type: :model do
           carousel = build(:carousel, title: nil);
           expect(carousel).not_to be_valid
         end
+
+        it 'is not valid without a user' do
+          carousel = build(:carousel, user_id: nil);
+          expect(carousel).not_to be_valid
+        end
     
         it 'has a title shorter than 255 characters' do
           carousel = build(:carousel, title: Faker::Lorem.paragraph_by_chars(number: 256, supplemental: false))

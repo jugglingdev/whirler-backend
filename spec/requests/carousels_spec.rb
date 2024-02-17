@@ -14,7 +14,7 @@ RSpec.describe "Carousels", type: :request do
     end
 
     it 'returns a response with all the carousels' do
-      expect(response.body).to eq(Carousel.all.to_json)
+      expect(response.body).to eq(CarouselBlueprint.render(Carousel.all))
     end
   end
 
@@ -35,12 +35,13 @@ RSpec.describe "Carousels", type: :request do
   end
 
   describe 'POST /carousels' do
-    context 'with valid params' do
-      let(:user) {create(:user)}
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user) }
 
+    context 'with valid params' do
       before do
         carousel_attributes = attributes_for(:carousel, user_id: user.id)
-        post '/carousels', params: carousel_attributes
+        post '/carousels', params: carousel_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it 'returns a sucessful response' do
@@ -55,7 +56,7 @@ RSpec.describe "Carousels", type: :request do
     context 'with invalid params' do
       before do
         carousel_attributes = attributes_for(:carousel, user_id: nil)
-        post '/carousels', params: carousel_attributes
+        post '/carousels', params: carousel_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it 'returns a response with errors' do
