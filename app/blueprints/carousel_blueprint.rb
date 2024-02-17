@@ -5,7 +5,7 @@ class CarouselBlueprint < Blueprinter::Base
 
     fields :title, :description
 
-    view :normal do
-        association :user, blueprint: UserBlueprint
-    end
+    # view :carousel_edit do
+    #     association :slides, blueprint: SlideBlueprint
+    # end
 end

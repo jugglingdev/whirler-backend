@@ -1,10 +1,10 @@
 class CarouselsController < ApplicationController
-    before_action :authenticate_request
+    before_action :authenticate_request, only: [:create]
     before_action :set_carousel, only: [:show, :update, :destroy]
 
     def index
       carousels = Carousel.all
-      render json: CarouselBlueprint.render(carousels, view: :normal), status: :ok
+      render json: CarouselBlueprint.render(carousels), status: :ok
     end
   
     def show
@@ -15,7 +15,7 @@ class CarouselsController < ApplicationController
       carousel = Carousel.new(carousel_params)
   
       if carousel.save
-        render json: CarouselBlueprint.render(carousel, view: :normal), status: :created
+        render json: CarouselBlueprint.render(carousel), status: :created
       else
         render json: carousel.errors, status: :unprocessable_entity
       end
