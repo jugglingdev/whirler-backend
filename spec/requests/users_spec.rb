@@ -1,24 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  describe "GET /users" do
-    let(:user) {create(:user)}
 
-    before do
-      user
-      get "/users"
-    end
-    
-    it 'returns a sucessful response' do
-      expect(response).to be_successful
-    end
-
-    it 'returns a response with all the users' do
-      expect(response.body).to eq(User.all.to_json)
-    end
-  end
-
-  describe "GET /post/:id" do
+  describe "GET /users/:id" do
     let(:user) {create(:user)}
 
     before do
@@ -34,11 +18,11 @@ RSpec.describe "Users", type: :request do
     end
   end
 
-  describe 'POST /users' do
+  describe 'POST /signup' do
     context 'with valid params' do
       before do
         user_attributes = attributes_for(:user)
-        post '/users', params: user_attributes
+        post '/signup', params: user_attributes
       end
 
       it 'returns a sucessful response' do
@@ -53,7 +37,7 @@ RSpec.describe "Users", type: :request do
     context 'with invalid params' do
       before do
         user_attributes = attributes_for(:user, email: nil)
-        post '/users', params: user_attributes
+        post '/signup', params: user_attributes
       end
 
       it 'returns a response with errors' do
@@ -63,9 +47,10 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "PUT /users/:id" do
-    context 'with valid params' do
-      let(:user) {create(:user)}
 
+    let(:user) {create(:user)}
+
+    context 'with valid params' do
       before do
         user_attributes = attributes_for(:user, email: "johndoe123@test.com")
         put "/users/#{user.id}", params: user_attributes
@@ -82,8 +67,6 @@ RSpec.describe "Users", type: :request do
     end
 
     context 'with invalid params' do
-      let(:user) {create(:user)}
-      
       before do
         user_attributes = attributes_for(:user, email: nil)
         put "/users/#{user.id}", params: user_attributes
