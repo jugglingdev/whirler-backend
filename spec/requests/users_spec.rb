@@ -4,9 +4,10 @@ RSpec.describe "Users", type: :request do
 
   describe "GET /users/:id" do
     let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user) }
 
     before do
-      get "/users/#{user.id}"
+      get "/users/#{user.id}", headers: { Authorization: "Bearer #{token}" }
     end
 
     it 'returns a sucessful response' do
@@ -14,7 +15,7 @@ RSpec.describe "Users", type: :request do
     end
 
     it 'returns a response with the correct user' do
-      expect(response.body).to eq(user.to_json)
+      expect(response.body).to eq(UserBlueprint.render(user, view: :profile_edit))
     end
   end
 
@@ -47,13 +48,13 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "PUT /users/:id" do
-
     let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user) }
 
     context 'with valid params' do
       before do
         user_attributes = attributes_for(:user, email: "johndoe123@test.com")
-        put "/users/#{user.id}", params: user_attributes
+        put "/users/#{user.id}", params: user_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it 'updates an user' do
@@ -69,7 +70,7 @@ RSpec.describe "Users", type: :request do
     context 'with invalid params' do
       before do
         user_attributes = attributes_for(:user, email: nil)
-        put "/users/#{user.id}", params: user_attributes
+        put "/users/#{user.id}", params: user_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it 'returns a response with errors' do
@@ -80,9 +81,10 @@ RSpec.describe "Users", type: :request do
 
   describe 'DELETE /user/:id' do
     let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user) }
 
     before do
-      delete "/users/#{user.id}"
+      delete "/users/#{user.id}", headers: { Authorization: "Bearer #{token}" }
     end
 
     it 'deletes an user' do
@@ -96,11 +98,12 @@ RSpec.describe "Users", type: :request do
 
   describe "GET /users/:id/carousels" do
     let(:user) {create(:user)}
-    let(:carousels) {create_list(:carousel, 3, user: user)}
+    let(:carousels) {create_list(:carousel, 3)}
+    let(:token) { auth_token_for_user(user) }
 
     before do
       carousels
-      get "/users/#{user.id}/carousels"
+      get "/users/#{user.id}/carousels", headers: { Authorization: "Bearer #{token}" }
     end
     
     it 'returns a sucessful response' do

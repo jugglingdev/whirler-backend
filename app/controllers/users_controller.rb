@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    
+  before_action :authenticate_request, only: [:show, :update, :destroy, :carousels_index]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # POST /users (Sign Up view)
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     render json: UserBlueprint.render(@user, view: :profile_edit), status: :ok
   end
 
-  # PATCH /users/:id (Profile view - Update)
+  # PUT /users/:id (Profile view - Update)
   def update
     if @user.update(user_params)
       render json: UserBlueprint.render(@user, view: :profile_edit), status: :ok

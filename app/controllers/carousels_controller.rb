@@ -1,7 +1,7 @@
 class CarouselsController < ApplicationController
     before_action :authenticate_request
     before_action :set_carousel, only: [:show, :update, :destroy]
-  
+
     # GET /carousels/:id (Carousel Edit view)
     def show
       render json: CarouselBlueprint.render(@carousel, view: :carousel_edit), status: :ok
@@ -39,8 +39,8 @@ class CarouselsController < ApplicationController
     # GET /carousels/:carousel_id/slides (Carousel Edit view)
     def slides_index
       carousel = Carousel.find(params[:carousel_id])
-      carousel_slides = carousel.slides
-      render json: CarouselBlueprint.render(carousel_slides, view: :carousel_edit), status: :ok
+      slides_with_quill_contents = carousel.slides.includes(:quill_contents)
+      render json: SlideBlueprint.render(slides_with_quill_contents, view: :carousel_edit), status: :ok
     end
   
     private

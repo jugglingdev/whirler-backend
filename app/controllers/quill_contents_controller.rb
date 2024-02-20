@@ -18,7 +18,7 @@ class QuillContentsController < ApplicationController
     end
   end
 
-  # PATCH /quill_contents/:id (Carousel Edit view - Update)
+  # PUT /quill_contents/:id (Carousel Edit view - Update)
   def update
     if @quill_contents.update(quill_contents_params)
       render json: @quill_contents, status: :ok
