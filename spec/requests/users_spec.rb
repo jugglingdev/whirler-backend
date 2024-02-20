@@ -98,7 +98,7 @@ RSpec.describe "Users", type: :request do
 
   describe "GET /users/:id/carousels" do
     let(:user) {create(:user)}
-    let(:carousels) {create_list(:carousel, 3)}
+    let(:carousels) {create_list(:carousel, 3, user: user)}
     let(:token) { auth_token_for_user(user) }
 
     before do

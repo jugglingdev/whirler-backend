@@ -36,13 +36,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/:user_id/carousels (Dashboard view)
-  def carousels_index
-    user = User.find(params[:user_id])
-    user_carousels = user.carousels
-    render json: CarouselBlueprint.render(user_carousels, view: :dashboard), status: :ok
-  end
-
   private
 
   def set_user

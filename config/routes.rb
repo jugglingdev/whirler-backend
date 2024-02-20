@@ -5,18 +5,19 @@ Rails.application.routes.draw do
     post 'login', to: 'sessions#create'
   end
 
-  post '/signup', to: 'users#create'
+  post 'signup', to: 'users#create'
 
   resources :users, only: [:show, :create, :update, :destroy] do
     get 'profile', to: 'users#show'
-    get 'carousels', to: 'users#carousels_index' # For Dashboard view
   end
+  
+  get 'dashboard', to: 'carousels#index' # For Dashboard view
 
   resources :carousels, only: [:show, :create, :update, :destroy] do
     resources :slides, only: [:index, :create] # For Carousel Edit view
     get 'slides', to: 'carousels#slides_index' # Custom action for displaying slides with quill contents
   end
-
+  
   resources :slides, only: [:show, :update, :destroy] do
     resources :quill_contents, only: [:index, :create] # For Carousel Edit view
   end

@@ -119,7 +119,7 @@ RSpec.describe "Carousels", type: :request do
 
     it 'returns a response with all the carousel slides' do
       slide_titles = slides.map(&:title)
-      expect(JSON.parse(response.body).map { |slide| slide["title"] }).to match_array(slide_titles)
+      expect(JSON.parse(response.body)[0]["slides"].map { |slide| slide["title"] }).to match_array(slide_titles)
     end
   end
 end

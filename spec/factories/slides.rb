@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :slide do
-    title { Faker::Lorem.words(number: 3) }
+    title { Faker::Lorem.sentence }
     carousel
   end
 end
