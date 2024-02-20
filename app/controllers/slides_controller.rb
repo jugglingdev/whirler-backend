@@ -1,12 +1,6 @@
 class SlidesController < ApplicationController
     before_action :set_slide, only: [:show, :update, :destroy]
 
-    # GET /carousels (Index view - list all carousels)
-    def index
-      carousels = Carousel.all
-      render json: CarouselBlueprint.render(carousels, view: :carousel_edit), status: :ok
-    end
-
     # GET /slides/:id (Carousel Edit view)
     def show
         render json: @slide, status: :ok
