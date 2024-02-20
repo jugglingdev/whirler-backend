@@ -9,11 +9,11 @@ Rails.application.routes.draw do
     delete 'profile', to: 'users#destroy'
 
     get 'dashboard', to: 'carousels#index'
-    get 'carousel-edit', to: 'carousels#slides_index'
+    get 'carousel-edit/:id', to: 'carousels#slides_index'
     resources :carousels, only: [:show, :create, :update, :destroy] do
-        resources :slides, only: [:show, :create, :update, :destroy], shallow: true
+        resources :slides, only: [:create]
     end
-    resources :slides, only: [:show, :update, :destroy] do
-        resources :quill_contents, shallow: true
+    resources :slides, only: [:update, :destroy] do
+        resources :quill_contents
     end
 end
