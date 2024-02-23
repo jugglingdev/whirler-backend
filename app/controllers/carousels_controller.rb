@@ -15,9 +15,14 @@ class CarouselsController < ApplicationController
   
     # POST /carousels (Dashboard view - Create)
     def create
-      carousel = Carousel.new(carousel_params)
-  
+      carousel = @current_user.carousels.new(carousel_params)
+
       if carousel.save
+        new_carousel_tags = params[:new_tags]
+        new_carousel_tags.count.times do | i |
+          carousel.tags.create(name: new_carousel_tags[i])
+        end
+
         render json: CarouselBlueprint.render(carousel, view: :dashboard), status: :created
       else
         render json: carousel.errors, status: :unprocessable_entity
@@ -27,6 +32,11 @@ class CarouselsController < ApplicationController
     # PUT /carousels/:id (Carousel Edit view - Update)
     def update
       if @carousel.update(carousel_params)
+        new_carousel_tags = params[:new_tags]
+        new_carousel_tags.count.times do | i |
+          @carousel.tags.create(name: new_carousel_tags[i])
+        end
+
         render json: CarouselBlueprint.render(@carousel, view: :carousel_edit), status: :ok
       else
         render json: @carousel.errors, status: :unprocessable_entity
@@ -55,6 +65,6 @@ class CarouselsController < ApplicationController
     end
   
     def carousel_params
-      params.permit(:title, :description, :thumbnail, :user_id, tags: [ :name ] )
+      params.permit(:title, :description, :thumbnail, :user_id, tag_ids: [])
     end
 end
