@@ -4,7 +4,7 @@ class CarouselBlueprint < Blueprinter::Base
     identifier :id
 
     view :dashboard do
-        fields :title, :description, :thumbnail, :user_id
+        fields :title, :description, :thumbnail
         association :tags, blueprint: TagBlueprint
     end
 

@@ -1,6 +1,6 @@
 class CarouselsController < ApplicationController
     before_action :authenticate_request
-    before_action :set_carousel, only: [:show, :update, :destroy]
+    before_action :set_carousel, only: [:show, :update, :destroy, :slides_index]
 
     # GET /dashboard (Dashboard view)
     def index
@@ -37,7 +37,7 @@ class CarouselsController < ApplicationController
           @carousel.tags.create(name: new_carousel_tags[i])
         end
 
-        render json: CarouselBlueprint.render(@carousel, view: :carousel_edit), status: :ok
+        render json: CarouselBlueprint.render(@carousel, view: :dashboard), status: :ok
       else
         render json: @carousel.errors, status: :unprocessable_entity
       end
@@ -54,8 +54,8 @@ class CarouselsController < ApplicationController
 
     # GET /carousels/:carousel_id/slides (Carousel Edit view)
     def slides_index
-      carousel = Carousel.find(params[:carousel_id])
-      render json: SlideBlueprint.render(carousel, view: :carousel_edit), status: :ok
+      carousel = @current_user.carousels.find(params[:id]);
+      render json: CarouselBlueprint.render(carousel, view: :carousel_edit), status: :ok
     end
   
     private
