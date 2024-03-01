@@ -2,6 +2,12 @@ class SlidesController < ApplicationController
     before_action :authenticate_request
     before_action :set_slide, only: [:show, :update, :destroy]
 
+    # GET /carousels/:carousel_id/slides (Carousel Edit view)
+    def slides_index
+        carousel = @current_user.carousels.find(params[:id]);
+        render json: CarouselBlueprint.render(carousel, view: :carousel_edit), status: :ok
+    end
+
     # GET /slides/:id (Carousel Edit view)
     def show
         render json: @slide, status: :ok
@@ -35,13 +41,6 @@ class SlidesController < ApplicationController
         else
             render json: @slide.errors, status: :unprocessable_entity
         end
-    end
-
-    # GET /slides/:slide_id/quill_contents (Carousel Edit view)
-    def quill_contents_index
-        slide = Slide.find(params[:slide_id])
-        slide_quill_contents = slide.quill_contents
-        render json: slide_quill_contents, status: :ok
     end
 
     private

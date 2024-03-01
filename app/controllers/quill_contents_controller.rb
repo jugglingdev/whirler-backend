@@ -2,6 +2,13 @@ class QuillContentsController < ApplicationController
         
   before_action :set_quill_contents, only: [:show, :update, :destroy]
 
+  # GET /slides/:slide_id/quill_contents (Carousel Edit view)
+  def quill_contents_index
+    slide = Slide.find(params[:slide_id])
+    slide_quill_contents = slide.quill_contents
+    render json: slide_quill_contents, status: :ok
+  end
+
   # GET /quill_contents/:id (Carousel Edit view)
   def show
     render json: @quill_contents, status: :ok
@@ -9,6 +16,8 @@ class QuillContentsController < ApplicationController
 
   # POST /quill_contents (Carousel Edit view - Create)
   def create
+    slide = Slide.find(params[:slide_id])
+    # TODO
     quill_contents = QuillContent.new(quill_contents_params)
 
     if quill_contents.save
