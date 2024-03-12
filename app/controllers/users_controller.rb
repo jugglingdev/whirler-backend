@@ -6,7 +6,8 @@ class UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
-      render json: user, status: :created
+      token = jwt_encode(user_id: user.id)
+      render json: { token: token }, status: :ok
     else
       render json: user.errors, status: :unprocessable_entity
     end
@@ -39,5 +40,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:first_name, :last_name, :username, :email, :password, :password_confirmation)
+  end
+
+  def jwt_encode(payload, exp = 24.hours.from_now)
+    payload[:exp] = exp.to_i
+    JWT.encode(payload, Rails.application.secret_key_base)
   end
 end
