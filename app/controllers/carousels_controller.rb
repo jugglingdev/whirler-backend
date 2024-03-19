@@ -1,6 +1,6 @@
 class CarouselsController < ApplicationController
     before_action :authenticate_request
-    before_action :set_carousel, only: [:show, :update, :destroy, :slides_index]
+    before_action :set_carousel, only: [:show, :update, :destroy]
 
     # GET /carousels (Dashboard view)
     def index
@@ -18,9 +18,12 @@ class CarouselsController < ApplicationController
       carousel = @current_user.carousels.new(carousel_params)
 
       if carousel.save
-        new_carousel_tags = params[:new_tags]
-        new_carousel_tags.count.times do | i |
-          carousel.tags.create(name: new_carousel_tags[i])
+        new_carousel_tags = params[:tags]
+
+        if new_carousel_tags
+          new_carousel_tags.count.times do | i |
+            carousel.tags.create(name: new_carousel_tags[i])
+          end
         end
 
         render json: CarouselBlueprint.render(carousel, view: :dashboard), status: :created
@@ -32,7 +35,7 @@ class CarouselsController < ApplicationController
     # PUT /carousels/:id (Carousel Edit view - Update)
     def update
       if @carousel.update(carousel_params)
-        new_carousel_tags = params[:new_tags]
+        new_carousel_tags = params[:tags]
         new_carousel_tags.count.times do | i |
           @carousel.tags.create(name: new_carousel_tags[i])
         end

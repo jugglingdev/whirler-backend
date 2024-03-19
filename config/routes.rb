@@ -17,4 +17,6 @@ Rails.application.routes.draw do
     end
 
     resources :quill_contents, only: [:show, :update, :destroy]
+
+    resources :tags, only: [:index, :crate]
 end
