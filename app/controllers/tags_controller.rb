@@ -3,7 +3,7 @@ class TagsController < ApplicationController
 
   # GET /tags
   def index
-    tags = Tags.all
+    tags = Tag.all
     render json: TagBlueprint.render(tags), status: :ok
   end
 
@@ -19,6 +19,6 @@ class TagsController < ApplicationController
   end
 
   def tag_params
-    params.permit(:name, :id)
+    params.permit(:name)
   end
 end
